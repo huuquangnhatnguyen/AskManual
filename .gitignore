@@ -1,0 +1,18 @@
+# Corpus and everything derived from it — large, and ABB's, not ours
+corpus/
+pages/
+chunks.jsonl
+
+# Secrets
+.env
+
+# Local tooling state
+.jira/
+MILESTONES.original.md
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
