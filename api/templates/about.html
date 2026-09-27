@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}How it works: AskManual{% endblock %}
+{% block content %}
+<div class="narrow">
+  <div class="page-head">
+    <div class="eyebrow">How it works</div>
+    <h1>From a fault code to the manual line behind the answer</h1>
+    <p>A technician standing at a drive needs the right row of a 600-page manual, and needs to trust it.
+       Every step below exists for one of those two needs.</p>
+  </div>
+
+  <div class="card">
+    <div class="pipeline">
+      <div class="stage"><div class="stage-n">1</div><div>
+        <h3>Read the manuals like a technician would</h3>
+        <p>Each PDF is split by layout into paragraphs, headings and <em>individual table rows</em>, so a fault row stays
+           one unit. Every piece keeps its page, its position on the page and the section it sits in.</p></div></div>
+      <div class="stage"><div class="stage-n">2</div><div>
+        <h3>Search three ways at once</h3>
+        <p>Each method catches questions the others miss.</p>
+        <div class="lanes">
+          <div class="lane"><b>Semantic</b>Matches meaning: "won't start" finds "no rotation".</div>
+          <div class="lane"><b>Keyword</b>Matches exact terms: parameter names and part numbers.</div>
+          <div class="lane"><b>Fault code</b>An exact lookup of codes like 2330 against the 377 codes the manuals define.</div>
+        </div></div></div>
+      <div class="stage"><div class="stage-n">3</div><div>
+        <h3>Fuse by rank, scope by product</h3>
+        <p>The three ranked lists are merged with reciprocal rank fusion: a passage ranked high by several methods wins.
+           If the question names one drive family, only that family's manuals are searched.</p></div></div>
+      <div class="stage"><div class="stage-n">4</div><div>
+        <h3>Answer only from what was found</h3>
+        <p>The model first decides whether the passages actually answer the question. It then fills a fixed structure
+           (meaning, causes, steps, tools, safety warning) where every line must cite a passage it was shown.</p></div></div>
+      <div class="stage"><div class="stage-n">5</div><div>
+        <h3>Check before showing</h3>
+        <p>Code, not the model, removes any line citing a passage the model wasn't given, and any safety warning that isn't
+           word for word from the manual. If nothing survives, you get "not found" and the nearest pages.</p></div></div>
+      <div class="stage"><div class="stage-n">6</div><div>
+        <h3>Show the evidence</h3>
+        <p>Every page link opens the exact region of the manual page, cropped from a pre-rendered page image, so you can
+           check the answer in seconds.</p></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Known limits</h2>
+    <ul class="small" style="margin:0;padding-left:20px">
+      <li>One manual is a scan without a text layer and isn't searchable until OCR is added.</li>
+      <li>Wiring diagrams are indexed by their text labels only. Figure descriptions aren't generated yet.</li>
+      <li>Nameplate photo entry is designed but not shipped. Type the model or fault code for now.</li>
+      <li>Results are measured on 25 questions. See the <a href="/results">Results</a> page.</li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

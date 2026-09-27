@@ -1,0 +1,33 @@
+id     set    top_score  refuses@0
+G01    gold      0.0164  no  
+G20    gold      0.0164  no  
+G24    gold      0.0164  no  
+OOC4   ooc       0.0164  no  <-- WRONG
+OOC5   ooc       0.0252  no  <-- WRONG
+G10    gold      0.0279  no  
+OOC2   ooc       0.0292  no  <-- WRONG
+G25    gold      0.0296  no  
+G22    gold      0.0296  no  
+G15    gold      0.0297  no  
+G08    gold      0.0301  no  
+OOC1   ooc       0.0301  no  <-- WRONG
+G12    gold      0.0303  no  
+OOC3   ooc       0.0306  no  <-- WRONG
+G07    gold      0.0308  no  
+G14    gold      0.0311  no  
+G11    gold      0.0318  no  
+G16    gold      0.0320  no  
+G19    gold      0.0323  no  
+G05    gold      0.0325  no  
+G09    gold      0.0325  no  
+G17    gold      0.0325  no  
+G23    gold      0.0325  no  
+G18    gold      0.0328  no  
+G21    gold      0.0328  no  
+G03    gold      0.0458  no  
+G13    gold      0.0467  no  
+G04    gold      0.0489  no  
+G06    gold      0.0489  no  
+G02    gold      0.0492  no  
+
+NOT separable: highest out-of-corpus 0.0306 >= lowest gold 0.0164

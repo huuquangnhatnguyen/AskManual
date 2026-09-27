@@ -2,6 +2,7 @@
 corpus/
 pages/
 chunks.jsonl
+index/
 
 # Secrets
 .env
@@ -16,3 +17,6 @@ __pycache__/
 *.egg-info/
 .venv/
 .pytest_cache/
+
+# Claude Code local launch config
+.claude/

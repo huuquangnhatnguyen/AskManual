@@ -1,0 +1,8 @@
+{
+  "kind": "refusal",
+  "message": "The manuals in this library don't cover that question confidently enough to give steps. These were the closest passages found.",
+  "nearest": [
+    {"chunk_id": "acs580_firmware_manual_p553_c012", "doc_id": "acs580_firmware_manual", "page": 553, "text": "2381 | IGBT overload | Excessive IGBT junction to case temperature. This fault protects the IGBT(s) and can be activated by a short circuit in the motor cable."},
+    {"chunk_id": "acs580_firmware_manual_p535_c004", "doc_id": "acs580_firmware_manual", "page": 535, "text": "WARNING! Only qualified electricians are allowed to service the drive."}
+  ]
+}

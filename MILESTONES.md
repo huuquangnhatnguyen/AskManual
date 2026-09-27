@@ -55,17 +55,17 @@ The schema a retrievable unit carries:
 
 ```json
 {
-  "chunk_id": "acs580_p214_t03_r07",
+  "chunk_id": "acs580_firmware_manual_p553_c001",
   "doc_id": "acs580_firmware_manual",
-  "product_family": "ACS580",
-  "page": 214,
-  "bbox": [72.4, 318.0, 523.1, 341.6],
+  "product_family": ["ACS580"],
+  "page": 553,
+  "bbox": [54.0, 432.0, 385.4, 522.9],
   "chunk_type": "table_row",
-  "text": "F0001 | Overcurrent | Motor cable short circuit; excessive load | Check motor cable insulation; reduce load",
-  "parent_section_id": "6.3",
-  "parent_section_title": "Fault tracing",
-  "fault_codes": ["F0001"],
-  "source_image": "pages/acs580_p214.png"
+  "text": "2330 | Earth leakage | Drive has detected load unbalance typically due to earth fault in motor or motor cable. | Check there are no power factor correction capacitors or surge absorbers in motor cable. ...",
+  "parent_section_id": "9.7",
+  "parent_section_title": "Fault messages",
+  "fault_codes": ["2330"],
+  "source_image": "pages/acs580_firmware_manual_p0553.png"
 }
 ```
 
@@ -248,7 +248,7 @@ Turns the corpus into schema-conforming chunks on disk. Everything here writes t
 - One chunk per table row, `chunk_type` = `table_row`, with `fault_codes` populated from the row's code column
 
 **Done when**
-- Grepping `chunks.jsonl` for `F0001` returns a single row-level chunk, not a page of text
+- Grepping `chunks.jsonl` for fault `2330` within `acs580_firmware_manual` returns a single row-level chunk, not a page of text
 - A flattened multi-row blob fails this check, however complete its text is
 
 #### AS1.3 — Figure crops plus vision descriptions
@@ -301,8 +301,8 @@ OVERALL        25    0.40
 | ID | Task | Est | Depends | Status |
 |----|------|-----|---------|--------|
 | AS2.1 | Eval harness | 2h | AS0.3, AS0.4 | TODO |
-| AS2.2 | Naive baseline retriever | 2h | AS2.1 | TODO |
-| AS2.3 | Index the real chunks | 3h | AS1.1, AS2.1 | TODO |
+| AS2.2 | Naive baseline retriever | 2h | AS2.1 | DONE |
+| AS2.3 | Index the real chunks | 3h | AS1.1, AS2.1 | DOING |
 
 #### AS2.1 — Eval harness
 
@@ -346,7 +346,7 @@ OVERALL        25    0.40
 - A Postgres table of extracted fault-code rows
 
 **Done when**
-- `SELECT * FROM fault_codes WHERE code = 'F0001'` returns exactly one row
+- `SELECT * FROM fault_codes WHERE code = '2330' AND product_family = 'ACS580'` returns exactly one row — `2330` is also an ACS880 code, so the family filter is part of the test
 - All three indexes report the same chunk count as `chunks.jsonl`
 
 ---
@@ -362,8 +362,8 @@ score(d) = Σ  1 / (k + rank_i(d))        k = 60
 
 | ID | Task | Est | Depends | Status |
 |----|------|-----|---------|--------|
-| AS3.1 | BM25 plus dense with RRF fusion | 4h | AS2.3 | TODO |
-| AS3.2 | Confidence threshold for refusal | 1h | AS3.1 | TODO |
+| AS3.1 | BM25 plus dense with RRF fusion | 4h | AS2.3 | DONE |
+| AS3.2 | Confidence threshold for refusal | 1h | AS3.1 | DONE |
 
 #### AS3.1 — BM25 plus dense with RRF fusion
 
@@ -402,18 +402,18 @@ Retrieved chunks become an answer with a fixed shape, where every field is trace
 
 ```json
 {
-  "fault_meaning": {"text": "...", "cite": "acs580_p214_t03_r07"},
+  "fault_meaning": {"text": "...", "cite": "acs580_firmware_manual_p553_c001"},
   "probable_causes": [{"text": "...", "likelihood": "high", "cite": "..."}],
   "corrective_steps": [{"n": 1, "text": "...", "cite": "..."}],
   "tools_and_parts": [{"text": "...", "cite": "..."}],
-  "safety_warning": {"verbatim": "WARNING! ...", "cite": "acs580_p31_p02"}
+  "safety_warning": {"verbatim": "WARNING! ...", "cite": "acs580_firmware_manual_p535_c004"}
 }
 ```
 
 | ID | Task | Est | Depends | Status |
 |----|------|-----|---------|--------|
-| AS4.1 | Answer schema plus constrained generation | 4h | AS3.1 | TODO |
-| AS4.2 | Refusal response | 1h | AS3.2 | TODO |
+| AS4.1 | Answer schema plus constrained generation | 4h | AS3.1 | DOING |
+| AS4.2 | Refusal response | 1h | AS3.2 | DOING |
 | AS4.3 | Wire real answers into the API | 2h | AS4.1, AS4.2, AS0.5 | TODO |
 
 #### AS4.1 — Answer schema plus constrained generation
@@ -520,8 +520,8 @@ The evidence pane is the headline feature, so it is also the headline risk: a cr
 | ID | Task | Est | Depends | Status |
 |----|------|-----|---------|--------|
 | AS6.1 | Harden the shell for real answers | 2h | AS0.6, AS4.3 | TODO |
-| AS6.2 | Structured answer card | 2h | AS4.3 | TODO |
-| AS6.3 | Citation expands to cropped page image | 2h | AS6.2, AS0.3, AS4.3 | TODO |
+| AS6.2 | Structured answer card | 2h | AS4.3 | DONE |
+| AS6.3 | Citation expands to cropped page image | 2h | AS6.2, AS0.3, AS4.3 | DOING |
 
 #### AS6.1 — Harden the shell for real answers
 

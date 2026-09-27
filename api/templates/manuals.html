@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Manuals: AskManual{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div class="eyebrow">Library</div>
+  <h1>What AskManual has read</h1>
+  <p>Answers come only from these manuals. Each one is split into paragraphs, table rows and headings,
+     and every piece remembers its page and position, which is how an answer can show you the exact region it came from.</p>
+</div>
+
+{% set searchable = manuals | selectattr("searchable") | list %}
+{% if searchable %}
+<div class="stats">
+  <div class="stat"><b>{{ searchable | length }} / {{ manuals | length }}</b><span>manuals searchable</span></div>
+  <div class="stat"><b>{{ "{:,}".format(manuals | sum(attribute="pages")) }}</b><span>pages in the library</span></div>
+  <div class="stat"><b>{{ "{:,}".format(manuals | sum(attribute="chunks")) }}</b><span>indexed passages</span></div>
+  <div class="stat"><b>{{ "{:,}".format(manuals | map(attribute="kinds") | map(attribute="table_row", default=0) | sum) }}</b><span>table rows kept as rows</span></div>
+</div>
+{% endif %}
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Manual</th><th>Drive family</th><th class="num">Pages</th><th class="num">Passages</th><th>Status</th></tr></thead>
+    <tbody>
+    {% for m in manuals %}
+      <tr>
+        <td><b>{{ m.title }}</b><div class="muted small">{{ m.scope }}</div></td>
+        <td>{{ m.family }}</td>
+        <td class="num">{{ m.pages }}</td>
+        <td class="num">{{ "{:,}".format(m.chunks) if m.chunks else "—" }}</td>
+        <td>{% if m.searchable %}<span class="badge badge-ok">Searchable</span>
+            {% elif searchable %}<span class="badge badge-off">Not yet</span>
+            {% else %}<span class="badge">Index not loaded</span>{% endif %}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="callout" style="margin-top:16px">
+  <strong>Why one manual isn't searchable yet.</strong> The ACS550 → ACS580 replacement guide is a scanned document
+  with no text layer. It needs OCR before it can be indexed, and until then questions about it are answered with
+  "not found" rather than a guess.
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+# The real-pipeline image (AS4.3): the app plus the ingest artifacts it serves from.
+# chunks.jsonl, pages/ and index/ are git-ignored and excluded by .dockerignore, so this
+# file has its own ignore list (Dockerfile.real.dockerignore, read by BuildKit).
+#
+#   docker build -f Dockerfile.real -t askmanual:real .
+#
+# Build from a checkout that has run `python -m ingest.run corpus/` and `python -m retrieval.index`.
+FROM python:3.13-slim
+
+WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+
+COPY pyproject.toml ./
+COPY core core
+COPY ingest ingest
+COPY retrieval retrieval
+COPY generation generation
+COPY eval eval
+COPY api api
+RUN pip install --no-cache-dir .
+
+COPY chunks.jsonl ./chunks.jsonl
+COPY pages pages
+COPY index index
+
+ENV PIPELINE=real \
+    CHUNKS_PATH=/app/chunks.jsonl \
+    PAGES_DIR=/app/pages \
+    BM25_PATH=/app/index/bm25.pkl
+
+CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000} --proxy-headers --forwarded-allow-ips='*'"]

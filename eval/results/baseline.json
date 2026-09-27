@@ -1,0 +1,451 @@
+{
+ "retriever": "baseline",
+ "k": 5,
+ "answers": false,
+ "seconds": 1.5,
+ "table": {
+  "fault_code": {
+   "n": 6,
+   "hits": 1,
+   "cite_ok": 0
+  },
+  "OVERALL": {
+   "n": 25,
+   "hits": 9,
+   "cite_ok": 0
+  },
+  "table": {
+   "n": 7,
+   "hits": 2,
+   "cite_ok": 0
+  },
+  "cross_manual": {
+   "n": 3,
+   "hits": 0,
+   "cite_ok": 0
+  },
+  "scanned": {
+   "n": 3,
+   "hits": 0,
+   "cite_ok": 0
+  },
+  "diagram": {
+   "n": 6,
+   "hits": 3,
+   "cite_ok": 0
+  },
+  "prose": {
+   "n": 6,
+   "hits": 3,
+   "cite_ok": 0
+  }
+ },
+ "questions": [
+  {
+   "id": "G01",
+   "groups": [
+    "fault_code",
+    "OVERALL"
+   ],
+   "hit": false,
+   "rank": null,
+   "top": [
+    "acs580_technical_catalog:p5",
+    "acs580_firmware_manual:p1",
+    "acs880_primary_firmware_manual:p612",
+    "acs880_primary_firmware_manual:p612",
+    "acs880_primary_firmware_manual:p607"
+   ]
+  },
+  {
+   "id": "G02",
+   "groups": [
+    "fault_code",
+    "OVERALL"
+   ],
+   "hit": false,
+   "rank": null,
+   "top": [
+    "acs880_primary_firmware_manual:p580",
+    "acs880_primary_firmware_manual:p625",
+    "acs580_firmware_manual:p554",
+    "acs580_firmware_manual:p557",
+    "acs880_primary_firmware_manual:p590"
+   ]
+  },
+  {
+   "id": "G03",
+   "groups": [
+    "fault_code",
+    "OVERALL"
+   ],
+   "hit": false,
+   "rank": 8,
+   "top": [
+    "acs580_firmware_manual:p195",
+    "acs580_firmware_manual:p195",
+    "acs580_firmware_manual:p192",
+    "acs580_firmware_manual:p195",
+    "acs580_firmware_manual:p195"
+   ]
+  },
+  {
+   "id": "G04",
+   "groups": [
+    "fault_code",
+    "OVERALL"
+   ],
+   "hit": true,
+   "rank": 1,
+   "top": [
+    "acs580_firmware_manual:p554",
+    "acs880_primary_firmware_manual:p583",
+    "acs880_primary_firmware_manual:p65",
+    "acs580_firmware_manual:p554",
+    "acs880_primary_firmware_manual:p66"
+   ]
+  },
+  {
+   "id": "G05",
+   "groups": [
+    "fault_code",
+    "OVERALL"
+   ],
+   "hit": false,
+   "rank": null,
+   "top": [
+    "acs880_primary_firmware_manual:p191",
+    "acs580_firmware_manual:p541",
+    "acs580_firmware_manual:p562",
+    "acs580_firmware_manual:p558",
+    "acs580_firmware_manual:p566"
+   ]
+  },
+  {
+   "id": "G06",
+   "groups": [
+    "fault_code",
+    "OVERALL"
+   ],
+   "hit": false,
+   "rank": 19,
+   "top": [
+    "acs880_primary_firmware_manual:p588",
+    "acs880_primary_firmware_manual:p609",
+    "acs580_01_hardware_manual:p439",
+    "acs880_primary_firmware_manual:p593",
+    "acs880_primary_firmware_manual:p593"
+   ]
+  },
+  {
+   "id": "G07",
+   "groups": [
+    "table",
+    "OVERALL"
+   ],
+   "hit": true,
+   "rank": 3,
+   "top": [
+    "acs880_01_hardware_manual:p133",
+    "acs580_01_hardware_manual:p172",
+    "acs580_01_type4x_quickstart:p13",
+    "acs580_01_hardware_manual:p358",
+    "acs880_01_hardware_manual:p143"
+   ]
+  },
+  {
+   "id": "G08",
+   "groups": [
+    "table",
+    "OVERALL"
+   ],
+   "hit": true,
+   "rank": 4,
+   "top": [
+    "acs580_technical_catalog:p21",
+    "acs580_01_type4x_quickstart:p14",
+    "acs580_technical_catalog:p21",
+    "acs580_01_hardware_manual:p310",
+    "acs580_01_hardware_manual:p311"
+   ]
+  },
+  {
+   "id": "G09",
+   "groups": [
+    "table",
+    "OVERALL"
+   ],
+   "hit": false,
+   "rank": 6,
+   "top": [
+    "acs580_01_type4x_quickstart:p14",
+    "acs880_01_hardware_manual:p244",
+    "acs880_01_hardware_manual:p310",
+    "acs580_technical_catalog:p21",
+    "acs880_primary_firmware_manual:p623"
+   ]
+  },
+  {
+   "id": "G10",
+   "groups": [
+    "table",
+    "cross_manual",
+    "scanned",
+    "OVERALL"
+   ],
+   "hit": false,
+   "rank": null,
+   "top": [
+    "acs580_01_hardware_manual:p368",
+    "acs580_01_hardware_manual:p365",
+    "acs580_technical_catalog:p5",
+    "acs580_01_hardware_manual:p303",
+    "acs580_01_hardware_manual:p387"
+   ]
+  },
+  {
+   "id": "G11",
+   "groups": [
+    "table",
+    "cross_manual",
+    "scanned",
+    "OVERALL"
+   ],
+   "hit": false,
+   "rank": null,
+   "top": [
+    "acs580_01_hardware_manual:p368",
+    "acs580_01_hardware_manual:p365",
+    "acs580_01_hardware_manual:p303",
+    "acs580_01_hardware_manual:p29",
+    "acs580_technical_catalog:p5"
+   ]
+  },
+  {
+   "id": "G12",
+   "groups": [
+    "table",
+    "OVERALL"
+   ],
+   "hit": false,
+   "rank": null,
+   "top": [
+    "acs880_primary_firmware_manual:p627",
+    "acs580_01_hardware_manual:p238",
+    "acs580_01_hardware_manual:p240",
+    "acs580_firmware_manual:p546",
+    "acs580_technical_catalog:p80"
+   ]
+  },
+  {
+   "id": "G13",
+   "groups": [
+    "table",
+    "OVERALL"
+   ],
+   "hit": false,
+   "rank": null,
+   "top": [
+    "acs880_primary_firmware_manual:p612",
+    "acs880_primary_firmware_manual:p153",
+    "acs880_primary_firmware_manual:p623",
+    "acs880_primary_firmware_manual:p155",
+    "acs580_technical_catalog:p48"
+   ]
+  },
+  {
+   "id": "G14",
+   "groups": [
+    "diagram",
+    "OVERALL"
+   ],
+   "hit": false,
+   "rank": null,
+   "top": [
+    "acs580_technical_catalog:p18",
+    "acs580_firmware_manual:p109",
+    "acs580_01_hardware_manual:p250",
+    "acs580_technical_catalog:p18",
+    "acs580_technical_catalog:p21"
+   ]
+  },
+  {
+   "id": "G15",
+   "groups": [
+    "diagram",
+    "OVERALL"
+   ],
+   "hit": false,
+   "rank": null,
+   "top": [
+    "acs880_01_hardware_manual:p189",
+    "acs580_technical_catalog:p5",
+    "acs580_technical_catalog:p18",
+    "acs580_technical_catalog:p18",
+    "acs580_technical_catalog:p6"
+   ]
+  },
+  {
+   "id": "G16",
+   "groups": [
+    "diagram",
+    "OVERALL"
+   ],
+   "hit": false,
+   "rank": 8,
+   "top": [
+    "acs580_01_hardware_manual:p238",
+    "acs580_01_type4x_quickstart:p6",
+    "acs580_firmware_manual:p84",
+    "acs580_01_hardware_manual:p240",
+    "acs580_firmware_manual:p98"
+   ]
+  },
+  {
+   "id": "G17",
+   "groups": [
+    "diagram",
+    "OVERALL"
+   ],
+   "hit": true,
+   "rank": 1,
+   "top": [
+    "acs580_01_type4x_quickstart:p8",
+    "acs580_technical_catalog:p18",
+    "acs580_technical_catalog:p46",
+    "acs580_firmware_manual:p491",
+    "acs880_primary_firmware_manual:p630"
+   ]
+  },
+  {
+   "id": "G18",
+   "groups": [
+    "diagram",
+    "OVERALL"
+   ],
+   "hit": true,
+   "rank": 3,
+   "top": [
+    "acs580_01_hardware_manual:p204",
+    "acs880_01_hardware_manual:p158",
+    "acs580_01_type4x_quickstart:p4",
+    "acs880_01_hardware_manual:p161",
+    "acs580_01_hardware_manual:p207"
+   ]
+  },
+  {
+   "id": "G19",
+   "groups": [
+    "diagram",
+    "OVERALL"
+   ],
+   "hit": true,
+   "rank": 3,
+   "top": [
+    "acs580_firmware_manual:p1",
+    "acs580_technical_catalog:p18",
+    "acs580_01_type4x_quickstart:p6",
+    "acs580_firmware_manual:p28",
+    "acs580_01_hardware_manual:p238"
+   ]
+  },
+  {
+   "id": "G20",
+   "groups": [
+    "prose",
+    "OVERALL"
+   ],
+   "hit": true,
+   "rank": 1,
+   "top": [
+    "acs580_01_type4x_quickstart:p1",
+    "acs580_01_type4x_quickstart:p1",
+    "acs580_01_hardware_manual:p363",
+    "acs880_01_hardware_manual:p229",
+    "acs580_firmware_manual:p556"
+   ]
+  },
+  {
+   "id": "G21",
+   "groups": [
+    "prose",
+    "OVERALL"
+   ],
+   "hit": false,
+   "rank": 11,
+   "top": [
+    "acs580_01_hardware_manual:p390",
+    "acs880_01_hardware_manual:p320",
+    "acs580_firmware_manual:p192",
+    "acs580_01_hardware_manual:p137",
+    "acs580_01_hardware_manual:p452"
+   ]
+  },
+  {
+   "id": "G22",
+   "groups": [
+    "prose",
+    "OVERALL"
+   ],
+   "hit": true,
+   "rank": 3,
+   "top": [
+    "acs580_01_hardware_manual:p375",
+    "acs580_01_type4x_quickstart:p5",
+    "acs580_01_type4x_quickstart:p1",
+    "acs880_01_hardware_manual:p84",
+    "acs580_01_hardware_manual:p129"
+   ]
+  },
+  {
+   "id": "G23",
+   "groups": [
+    "prose",
+    "OVERALL"
+   ],
+   "hit": true,
+   "rank": 4,
+   "top": [
+    "acs880_01_hardware_manual:p376",
+    "acs580_firmware_manual:p22",
+    "acs580_01_hardware_manual:p28",
+    "acs580_01_type4x_quickstart:p1",
+    "acs580_01_hardware_manual:p28"
+   ]
+  },
+  {
+   "id": "G24",
+   "groups": [
+    "prose",
+    "scanned",
+    "OVERALL"
+   ],
+   "hit": false,
+   "rank": null,
+   "top": [
+    "acs580_01_hardware_manual:p387",
+    "acs880_01_hardware_manual:p294",
+    "acs580_01_hardware_manual:p64",
+    "acs580_01_hardware_manual:p303",
+    "acs580_firmware_manual:p15"
+   ]
+  },
+  {
+   "id": "G25",
+   "groups": [
+    "prose",
+    "cross_manual",
+    "OVERALL"
+   ],
+   "hit": false,
+   "rank": null,
+   "top": [
+    "acs580_technical_catalog:p48",
+    "acs580_technical_catalog:p48",
+    "acs880_01_hardware_manual:p144",
+    "acs880_01_hardware_manual:p178",
+    "acs580_technical_catalog:p44"
+   ]
+  }
+ ]
+}

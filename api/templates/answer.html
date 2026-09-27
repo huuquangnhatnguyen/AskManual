@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ question[:60] }}: AskManual{% endblock %}
+{% block content %}
+<div class="narrow">
+  <div class="page-head">
+    <a href="/" class="small">← New question</a>
+    <p class="question-echo">{{ question }}</p>
+    {% if family %}<span class="badge">{{ family }}</span>{% endif %}
+  </div>
+  <div id="out" aria-live="polite"></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  window.ASK = {{ ask | tojson }};
+  window.DOC_TITLES = {{ titles | tojson }};
+</script>
+<script src="/static/answer.js?v={{ asset_version }}"></script>
+{% endblock %}

@@ -67,12 +67,19 @@ curl -L -o out.pdf "https://search.abb.com/library/Download.aspx?DocumentID=<ID>
 Documents whose library entry shows no `PART` field need `DocumentPartId=`
 (empty) instead of `1`, or the endpoint returns 404.
 
-## Scanned manual — open, and why
+## Scanned manual — constructed, not found
 
-**AS0.1 is not satisfied on this point yet.** It asks for at least one
-genuinely scanned PDF with no text layer, verified by `pdftotext` printing
-nothing. ABB's public library does not appear to contain one. Checked and
-rejected:
+**`acs550_to_acs580_replacement.pdf` is a constructed scan.** On 2026-09-23 it
+was rasterised page by page (greyscale, 200 dpi, JPEG) and re-wrapped as an
+image-only PDF by `python tools/flatten_scan.py acs550_to_acs580_replacement`.
+`pdftotext` prints nothing for it — AS0.1's acceptance test. The born-digital
+original is kept at `corpus/_digital/acs550_to_acs580_replacement.pdf`, which
+`verify_gold.py` reads for that document. Page count and page size are
+unchanged, so the gold page numbers still hold. State this plainly in the
+README (AS8.2): it is a clean raster, easier than a real skewed, noisy scan.
+
+AS0.1 asks for a genuinely scanned PDF, and ABB's public library does not
+appear to contain one. Checked and rejected:
 
 | Candidate | Year | Result |
 |---|---|---|
@@ -85,7 +92,7 @@ rejected:
 A structural check with PyMuPDF confirms it: zero full-page images in any of
 them. ABB appears to have re-typeset rather than scanned its back catalogue.
 
-The remaining options, in preference order:
+Options considered, in preference order — the first was taken:
 
 1. **Flatten `acs550_to_acs580_replacement.pdf` into an image-only PDF.**
    24 pages, so it is the cheapest to OCR, and its ACS550 comparison data
@@ -97,8 +104,7 @@ The remaining options, in preference order:
 3. Amend AS0.1 and AS1.4 to drop OCR from the prototype.
 
 Three gold questions (G10, G11, G24) already target that document exclusively
-and carry `scan_target: true`, so whichever route is taken they need no
-rewriting.
+and carry `scan_target: true`, so they needed no rewriting.
 
 ## Things the ingest pipeline has to handle
 
@@ -111,10 +117,9 @@ to discover on D8.
   ("see page 310") use the *printed* number. `gold.jsonl` stores the PDF index
   in `page` and the printed number separately in `printed_page`.
 - **Fault codes are 4-character hex, not `Fxxxx`.** Real ACS580 codes are
-  `2310`, `3210`, `7122`; warnings are `A2B1`, `A5A0`. The `F0001` in the
-  `schema.md` example and in AS2.3's acceptance test
-  (`WHERE code = 'F0001'`) is ACS550-era format and matches nothing in this
-  corpus. Both need updating before AS1.2 and AS2.3 are written.
+  `2310`, `3210`, `7122`; warnings are `A2B1`, `A5A0`. The ACS550-era `F0001`
+  that the M0 example, AS1.2 and AS2.3 used matched nothing in this corpus;
+  all three now use `2330` (updated 2026-09-23).
 - **Aux codes share the code column.** Inside a fault entry, sub-rows like
   `0001`, `0002`, `0080` are auxiliary codes belonging to the fault above
   them, not separate faults. A naive row extractor will emit them as

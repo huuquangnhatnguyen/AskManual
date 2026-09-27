@@ -1,0 +1,26 @@
+{
+  "kind": "answer",
+  "fault_meaning": {
+    "text": "2330 Earth leakage: the drive has detected load unbalance, typically due to an earth fault in the motor or motor cable.",
+    "cite": "acs580_firmware_manual_p553_c001"
+  },
+  "probable_causes": [
+    {"text": "Earth fault in the motor or motor cable", "likelihood": "high", "cite": "acs580_firmware_manual_p553_c001"},
+    {"text": "Power factor correction capacitors or surge absorbers in the motor cable", "likelihood": "medium", "cite": "acs580_firmware_manual_p553_c001"}
+  ],
+  "corrective_steps": [
+    {"n": 1, "text": "Check there are no power factor correction capacitors or surge absorbers in the motor cable.", "cite": "acs580_firmware_manual_p553_c001"},
+    {"n": 2, "text": "Check for an earth fault by measuring the insulation resistances of the motor and motor cable.", "cite": "acs580_firmware_manual_p553_c001"},
+    {"n": 3, "text": "Try running the motor in scalar control mode if allowed (parameter 99.04 Motor control mode).", "cite": "acs580_firmware_manual_p553_c001"},
+    {"n": 4, "text": "If no earth fault can be detected, contact your local ABB representative.", "cite": "acs580_firmware_manual_p553_c001"}
+  ],
+  "tools_and_parts": [],
+  "safety_warning": {
+    "verbatim": "WARNING! Only qualified electricians are allowed to service the drive. Read the instructions in chapter Safety instructions at the beginning of the Hardware manual of the drive before working on the drive.",
+    "cite": "acs580_firmware_manual_p535_c004"
+  },
+  "sources": {
+    "acs580_firmware_manual_p553_c001": {"doc_id": "acs580_firmware_manual", "page": 553, "chunk_type": "table_row", "parent_section_title": "Fault messages"},
+    "acs580_firmware_manual_p535_c004": {"doc_id": "acs580_firmware_manual", "page": 535, "chunk_type": "prose", "parent_section_title": "Safety"}
+  }
+}

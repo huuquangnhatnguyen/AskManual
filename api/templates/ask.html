@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}AskManual: ask the drive manuals{% endblock %}
+{% block content %}
+<div class="narrow">
+  <div class="page-head">
+    <div class="eyebrow">Field troubleshooting</div>
+    <h1>What is the drive telling you?</h1>
+    <p>Ask about a fault code, a wiring limit or a setting. Every answer cites the manual page it came from.
+       If the manuals don't cover it, you'll be told so.</p>
+  </div>
+
+  <form class="card" action="/answer" method="get" id="ask">
+    <label class="field-label" for="q">Your question</label>
+    <textarea id="q" name="q" maxlength="1000" required
+              placeholder="e.g. ACS580 is showing fault 2330. What should I check first?"></textarea>
+    <div class="ask-row">
+      <div>
+        <label class="field-label" for="family">Drive family</label>
+        <select id="family" name="family">
+          <option value="">Detect from question</option>
+          <option value="ACS580">ACS580</option>
+          <option value="ACS880">ACS880</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" type="submit">Get answer</button>
+    </div>
+  </form>
+
+  <section style="margin-top:24px">
+    <div class="field-label">Try an example</div>
+    <div class="chips">
+      {% for tag, q in examples %}
+      <a class="chip" href="/answer?q={{ q | urlencode }}"><b>{{ tag }}</b>{{ q }}</a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <div class="feature-list">
+    <div class="feature"><h3>Cited to the line</h3><p>Tap any page link to see the exact table row or paragraph on the manual page.</p></div>
+    <div class="feature"><h3>Safety first</h3><p>Warnings are quoted word for word from the manual, never paraphrased.</p></div>
+    <div class="feature"><h3>Says "not found"</h3><p>If the manuals don't answer it, you get the nearest pages, not a guess.</p></div>
+  </div>
+</div>
+{% endblock %}

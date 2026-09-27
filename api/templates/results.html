@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Results: AskManual{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div class="eyebrow">Measured, not claimed</div>
+  <h1>How well does it find the right page?</h1>
+  <p>We wrote {{ results.n.OVERALL if results else 25 }} real technician questions, each with the manual page that answers it.
+     For every search method we check whether that page is in the top 5 results (recall@5).
+     Every number here is read from a file in <code>eval/results/</code>.</p>
+</div>
+
+{% if results %}
+{% set ours = results.rows | selectattr("name", "equalto", "fused") | first %}
+{% set base = results.rows | selectattr("name", "equalto", "baseline") | first %}
+{% if ours and base %}
+<div class="stats">
+  <div class="stat"><b>{{ "%.0f" | format(ours.cells.fault_code * 100) }}%</b>
+    <span>of fault-code questions find the right page</span>
+    <div class="delta">up from {{ "%.0f" | format(base.cells.fault_code * 100) }}% for the baseline</div></div>
+  <div class="stat"><b>{{ "%.0f" | format(ours.cells.OVERALL * 100) }}%</b>
+    <span>of all questions, top 5</span>
+    <div class="delta">up from {{ "%.0f" | format(base.cells.OVERALL * 100) }}%</div></div>
+  <div class="stat"><b>{{ "%.0f" | format(ours.cells.table * 100) }}%</b>
+    <span>of table questions</span>
+    <div class="delta">up from {{ "%.0f" | format(base.cells.table * 100) }}%</div></div>
+</div>
+{% endif %}
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Method</th>
+      {% for key, label in results.columns %}<th class="num">{{ label }}<div class="muted" style="font-weight:500;text-transform:none;letter-spacing:0">n={{ results.n[key] }}</div></th>{% endfor %}
+    </tr></thead>
+    <tbody>
+    {% for r in results.rows %}
+      <tr{% if r.name == "fused" %} class="ours"{% endif %}>
+        <td><b>{{ r.label }}</b><div class="muted small">{{ r.what }}</div></td>
+        {% for key, _ in results.columns %}
+          {% set v = r.cells.get(key) %}
+          <td class="num{% if v is not none and v == results.best[key] %} best{% endif %}">
+            {% if v is not none %}{{ "%.2f" | format(v) }}<div class="bar"><i style="width:{{ (v * 100) | round | int }}%"></i></div>{% else %}—{% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<h2 style="font-size:17px;margin:28px 0 12px">What these numbers don't hide</h2>
+<div class="callout"><strong>Diagrams are weaker than the baseline.</strong> Figure descriptions weren't ingested, so
+  wiring-diagram labels are missing from our passages. With 6 diagram questions this is a one-question difference.</div>
+<div class="callout"><strong>Keyword search alone scores higher on tables</strong> than the fused method. Semantic search
+  pulls some table rows down, and the fused method still beats the baseline.</div>
+<div class="callout"><strong>Three questions can't be answered by any method yet.</strong> They're about the scanned manual,
+  which needs OCR. Every row shares that ceiling equally.</div>
+<div class="callout"><strong>Small sample.</strong> With {{ results.n.OVERALL }} questions, one question moves a column by 0.14–0.17.
+  Read these as directional, not statistically significant.</div>
+{% else %}
+<div class="card"><p class="muted" style="margin:0">No evaluation runs found yet. Run <code>python -m eval.run --retriever fused</code>.</p></div>
+{% endif %}
+{% endblock %}

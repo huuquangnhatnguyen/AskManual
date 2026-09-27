@@ -33,7 +33,9 @@ for r in rows:
         print(f"FAIL {r['id']}  no such doc: {r['doc_id']}")
         fails += 1
         continue
-    d = pymupdf.open(path)
+    # A flattened "scan" has no text layer; check the gold against its digital original.
+    digital = os.path.join("corpus", "_digital", os.path.basename(path))
+    d = pymupdf.open(digital if os.path.exists(digital) else path)
     if not (1 <= r["page"] <= len(d)):
         print(f"FAIL {r['id']}  page {r['page']} out of range (doc has {len(d)})")
         fails += 1

@@ -1,0 +1,11 @@
+.git
+.venv
+.env
+.jira
+.claude
+corpus
+**/__pycache__
+tests
+tools
+*.md
+!api/CONTRACT.md

@@ -1,0 +1,13 @@
+.git
+.venv
+.env
+.jira
+.claude
+corpus
+pages
+chunks.jsonl
+**/__pycache__
+tests
+tools
+*.md
+!api/CONTRACT.md
