@@ -58,38 +58,78 @@ def usable(table) -> bool:
 STRADDLE_MAX = 1  # words a real table may push across a cell edge (an overflowing part number, say)
 
 
-def cuts_words(table, words: list[tuple]) -> bool:
-    """True when the finder's cell edges run through words, i.e. it split text that isn't tabular.
+def straddles(table, words: list[tuple]) -> list[int]:
+    """Per row of `table`, how many words its cell edges cut through.
 
     A ruled table keeps every word inside its cell. When a diagram line or a text frame is read as
     a column rule, words straddle it and each cell's text is clipped at the edge ("nsulated",
-    "rive's", "WA … RNING"). About 10% of the tables the finder accepts in this corpus do this:
-    diagram callouts, framed WARNING boxes, and tables with a phantom column. Rejected tables fall
-    through to the prose path, which reads the same text intact. `words` is page.get_text("words").
+    "rive's", "WA … RNING"). `words` is page.get_text("words").
     """
     x0, x1 = table.bbox[0] + 1, table.bbox[2] - 1
-    n = 0
+    counts = []
     for row in table.rows:
+        n = 0
         for cell in row.cells:
             if not cell:
                 continue
             c = pymupdf.Rect(cell)
             edges = [x for x in (c.x0, c.x1) if x0 < x < x1]  # interior edges only
-            for w in words:
-                if c.y0 <= (w[1] + w[3]) / 2 <= c.y1 and any(w[0] < x - 1.5 and w[2] > x + 1.5 for x in edges):
-                    n += 1
-                    if n > STRADDLE_MAX:
-                        return True
-    return False
+            n += sum(1 for w in words
+                     if c.y0 <= (w[1] + w[3]) / 2 <= c.y1 and any(w[0] < x - 1.5 and w[2] > x + 1.5 for x in edges))
+        counts.append(n)
+    return counts
 
 
-def table_rows(tables: list, carry: str | None) -> tuple[list[Row], str | None]:
-    """Rows of every usable table on a page. `carry` is the last fault code seen on the previous page."""
+def header_row(table) -> int | None:
+    """Index in table.rows of the header, if the header is one of the table's own rows."""
+    raw = [h or "" for h in table.header.names]
+    has_header = not all(_GENERIC_HEADER.match(h) for h in raw if h)
+    return 0 if has_header and not table.header.external else None
+
+
+MIN_BODY_ROWS = 4  # below this, a "header" is most of the table's content, not a label row
+
+
+def _cuts(table, words: list[tuple]) -> tuple[int, list[int]]:
+    """(words cut in the header row, words cut per filled data row)."""
+    counts = straddles(table, words)
+    h = header_row(table)
+    data = table.extract()
+    body = [n for i, n in enumerate(counts) if i != h and any(c and c.strip() for c in data[i])]
+    return (counts[h] if h is not None else 0), body
+
+
+def not_a_table(table, words: list[tuple]) -> bool:
+    """The finder split text that isn't tabular: diagram callouts, framed WARNING boxes, state-machine
+    boxes. About 5% of accepted tables in this corpus. Reject; the prose path reads the text intact.
+
+    Real tables get cut too, but sparsely: group sub-headings spanning a column ("X6 Relay outputs"
+    inside a terminal table) push one word over one edge, in a few rows. A fake is cut densely:
+    several words in a row, or most rows, or a clipped "header" with almost nothing under it.
+    """
+    head, body = _cuts(table, words)
+    if body and (max(body) > STRADDLE_MAX or sum(1 for n in body if n) / len(body) > 0.5):
+        return True
+    return head > STRADDLE_MAX and len(body) < MIN_BODY_ROWS
+
+
+def cut_header(table, words: list[tuple]) -> bool:
+    """A real table whose header labels are clipped ("eference voltage…", from a phantom column
+    through "X1 Reference"). Keep its rows; drop the labels. Call on tables not_a_table accepted."""
+    head, _ = _cuts(table, words)
+    return head > STRADDLE_MAX
+
+
+def table_rows(tables: list, carry: str | None, unlabelled: frozenset[int] = frozenset()
+               ) -> tuple[list[Row], str | None]:
+    """Rows of every usable table on a page. `carry` is the last fault code seen on the previous page.
+    Tables whose index is in `unlabelled` have a clipped header (cut_header): their header row is
+    still skipped, but its labels aren't prefixed onto the cells."""
     out: list[Row] = []
-    for t in tables:
+    for i, t in enumerate(tables):
         raw = [h or "" for h in t.header.names]
         has_header = not all(_GENERIC_HEADER.match(h) for h in raw if h)
-        headers = [clean(h) for h in raw] if has_header else [""] * t.col_count
+        headers = [clean(h) for h in raw] if has_header and i not in unlabelled else [""] * t.col_count
         code_col = next((i for i, h in enumerate(headers) if h.lower().startswith("code")), None)
 
         data = t.extract()

@@ -2,7 +2,7 @@
  "retriever": "bm25",
  "k": 5,
  "answers": false,
- "seconds": 7.6,
+ "seconds": 10.7,
  "table": {
   "fault_code": {
    "n": 6,
@@ -11,12 +11,12 @@
   },
   "OVERALL": {
    "n": 25,
-   "hits": 11,
+   "hits": 10,
    "cite_ok": 0
   },
   "table": {
    "n": 7,
-   "hits": 4,
+   "hits": 3,
    "cite_ok": 0
   },
   "cross_manual": {
@@ -48,7 +48,7 @@
     "OVERALL"
    ],
    "hit": false,
-   "rank": 14,
+   "rank": 15,
    "top": [
     "acs580_firmware_manual:p560",
     "acs880_primary_firmware_manual:p580",
@@ -165,8 +165,8 @@
     "acs580_technical_catalog:p80",
     "acs580_technical_catalog:p78",
     "acs580_01_hardware_manual:p379",
-    "acs580_01_hardware_manual:p305",
-    "acs880_01_hardware_manual:p244"
+    "acs880_01_hardware_manual:p244",
+    "acs580_01_hardware_manual:p305"
    ]
   },
   {
@@ -180,9 +180,9 @@
    "top": [
     "acs880_01_hardware_manual:p244",
     "acs580_01_hardware_manual:p310",
+    "acs880_01_hardware_manual:p244",
     "acs580_01_hardware_manual:p310",
-    "acs580_01_hardware_manual:p310",
-    "acs880_01_hardware_manual:p244"
+    "acs580_01_hardware_manual:p310"
    ]
   },
   {
@@ -200,7 +200,7 @@
     "acs580_01_hardware_manual:p80",
     "acs880_01_hardware_manual:p53",
     "acs880_primary_firmware_manual:p98",
-    "acs880_01_hardware_manual:p53"
+    "acs580_01_hardware_manual:p80"
    ]
   },
   {
@@ -227,14 +227,14 @@
     "table",
     "OVERALL"
    ],
-   "hit": true,
-   "rank": 5,
+   "hit": false,
+   "rank": 6,
    "top": [
     "acs880_primary_firmware_manual:p33",
     "acs580_firmware_manual:p126",
     "acs880_primary_firmware_manual:p33",
-    "acs580_firmware_manual:p546",
-    "acs880_01_hardware_manual:p186"
+    "acs580_01_hardware_manual:p137",
+    "acs880_01_hardware_manual:p102"
    ]
   },
   {
@@ -249,8 +249,8 @@
     "acs580_firmware_manual:p228",
     "acs580_01_type4x_quickstart:p11",
     "acs580_firmware_manual:p244",
-    "acs580_firmware_manual:p263",
-    "acs580_firmware_manual:p261"
+    "acs580_firmware_manual:p261",
+    "acs580_firmware_manual:p263"
    ]
   },
   {
@@ -262,11 +262,11 @@
    "hit": false,
    "rank": null,
    "top": [
+    "acs580_firmware_manual:p88",
     "acs580_01_hardware_manual:p387",
     "acs580_firmware_manual:p303",
-    "acs580_firmware_manual:p303",
     "acs580_01_hardware_manual:p390",
-    "acs580_firmware_manual:p89"
+    "acs580_firmware_manual:p303"
    ]
   },
   {
@@ -292,7 +292,7 @@
     "OVERALL"
    ],
    "hit": false,
-   "rank": 9,
+   "rank": 10,
    "top": [
     "acs880_primary_firmware_manual:p33",
     "acs880_primary_firmware_manual:p33",
@@ -311,8 +311,8 @@
    "rank": null,
    "top": [
     "acs580_technical_catalog:p18",
-    "acs880_primary_firmware_manual:p654",
     "acs580_firmware_manual:p598",
+    "acs880_primary_firmware_manual:p654",
     "acs580_technical_catalog:p79",
     "acs580_technical_catalog:p18"
    ]
@@ -344,9 +344,9 @@
    "top": [
     "acs580_01_type4x_quickstart:p6",
     "acs580_01_type4x_quickstart:p6",
-    "acs580_01_type4x_quickstart:p6",
-    "acs580_01_type4x_quickstart:p6",
-    "acs580_01_type4x_quickstart:p6"
+    "acs580_01_type4x_quickstart:p7",
+    "acs580_firmware_manual:p80",
+    "acs580_firmware_manual:p82"
    ]
   },
   {
@@ -390,11 +390,11 @@
    "hit": false,
    "rank": 9,
    "top": [
-    "acs880_01_hardware_manual:p85",
     "acs580_01_hardware_manual:p121",
+    "acs880_01_hardware_manual:p85",
     "acs580_01_hardware_manual:p126",
     "acs880_01_hardware_manual:p89",
-    "acs580_01_hardware_manual:p121"
+    "acs880_01_hardware_manual:p85"
    ]
   },
   {
@@ -408,8 +408,8 @@
    "top": [
     "acs580_firmware_manual:p26",
     "acs580_01_type4x_quickstart:p1",
-    "acs880_01_hardware_manual:p363",
     "acs580_01_hardware_manual:p443",
+    "acs880_01_hardware_manual:p363",
     "acs580_firmware_manual:p198"
    ]
   },

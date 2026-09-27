@@ -95,7 +95,37 @@ def test_diagram_callout_frame_is_not_a_table():
                   for c in cs if n == 4]
         page = doc[3]
         text = " ".join(c.text for c in chunks)
-        assert "nsulated" not in text.replace("Insulated", "") and "rive's" not in text.replace("drive's", "")
+        import re
+        assert not re.search(r"\b(nsulated|rive's|istribution|onduit)\b", text)  # words clipped at a fake column edge
         assert "For a conduit installation see a and b." in text
         bad = [(c.chunk_id, round(check_chunk(page, c), 2)) for c in chunks if check_chunk(page, c) < 0.7]
     assert bad == []
+
+
+HW = CORPUS / "acs580_01_hardware_manual.pdf"
+
+
+@needs_corpus
+def test_table_with_clipped_header_keeps_its_rows_unprefixed():
+    # Firmware p98, PFC macro terminals: a phantom column cuts the header "X1 Reference voltage…"
+    # and a few spanning sub-headings. The terminal rows are real and must survive, without the
+    # clipped "eference…:" label glued to each one.
+    with pymupdf.open(FW) as doc:
+        furniture, body = survey(doc)
+        pieces, _ = parse_page(doc[97], furniture, body, None)
+    rows = [p.text for p in pieces if p.kind == "table_row"]
+    assert len(rows) > 30
+    assert "1 | SCR | Signal cable shield (screen)" in rows
+    assert not any("eference" in r.replace("Reference", "") for r in rows)
+
+
+@needs_corpus
+def test_framed_warning_box_is_one_intact_prose_chunk():
+    # Hardware p207: a WARNING frame the finder split into two columns ("WA … | RNING"). The answer
+    # card quotes warnings verbatim from chunk text, so a split warning can't be quoted at all.
+    with pymupdf.open(HW) as doc:
+        furniture, body = survey(doc)
+        pieces, _ = parse_page(doc[206], furniture, body, None)
+    warnings = [p for p in pieces if p.text.startswith("WARNING")]
+    assert warnings and warnings[0].kind == "prose"
+    assert "WARNING If you install IP66 (UL Type 4X) drive indoors or outdoors" in warnings[0].text

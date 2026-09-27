@@ -23,7 +23,7 @@ import pymupdf
 
 from ingest.schema import Chunk
 from ingest.sections import SectionIndex
-from ingest.tables import cuts_words, table_rows, usable
+from ingest.tables import cut_header, not_a_table, table_rows, usable
 from ingest.text import clean, codes_in_prose
 
 MARGIN = 0.07
@@ -106,6 +106,13 @@ def _block_pieces(block: dict, body: float) -> list[Piece]:
     return [Piece(r, t, "prose", codes_in_prose(t)) for r, t in pieces if t]
 
 
+def _words_in(words: list[tuple], rect: pymupdf.Rect) -> str:
+    """Page words centred in `rect`, in reading order: text a clipped table cell cut in half, whole."""
+    inside = [w for w in words if rect.contains(pymupdf.Point((w[0] + w[2]) / 2, (w[1] + w[3]) / 2))]
+    inside.sort(key=lambda w: (w[5], w[6], w[7]))  # block, line, word
+    return clean(" ".join(w[4] for w in inside))
+
+
 def _inside(rect: pymupdf.Rect, zones: list[pymupdf.Rect]) -> bool:
     area = rect.get_area() or 1.0
     return any((rect & z).get_area() / area > 0.5 for z in zones)
@@ -114,10 +121,17 @@ def _inside(rect: pymupdf.Rect, zones: list[pymupdf.Rect]) -> bool:
 def parse_page(page: pymupdf.Page, furniture: set[str], body: float, carry: str | None
                ) -> tuple[list[Piece], str | None]:
     words = page.get_text("words")
-    tables = [t for t in page.find_tables().tables if usable(t) and not cuts_words(t, words)]
+    tables = [t for t in page.find_tables().tables if usable(t) and not not_a_table(t, words)]
     zones = [pymupdf.Rect(t.bbox) for t in tables]
-    rows, carry = table_rows(tables, carry)
+    unlabelled = frozenset(i for i, t in enumerate(tables) if cut_header(t, words))
+    rows, carry = table_rows(tables, carry, unlabelled)
     pieces = [Piece(r.rect, r.text, "table_row", r.fault_codes) for r in rows if " | " in r.text]
+    # A clipped header's labels are dropped from the rows; its text is kept whole, read from the page.
+    for i in unlabelled:
+        rect = pymupdf.Rect(tables[i].rows[0].bbox)
+        text = _words_in(words, rect)
+        if text:
+            pieces.append(Piece(rect, text, "prose", codes_in_prose(text)))
     # A one-cell "row" isn't a row; keep its text as prose.
     pieces += [Piece(r.rect, r.text, "prose", codes_in_prose(r.text)) for r in rows if " | " not in r.text]
 

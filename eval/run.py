@@ -69,12 +69,21 @@ def evaluate(retriever: str | Retriever, gold: list[dict], k: int = 5, answers: 
             t["n"] += 1
             t["hits"] += r["hit"]
             t["cite_ok"] += r.get("cite_ok", False)
-    return {
+    result = {
         "retriever": retriever.name, "k": k, "answers": answers,
         "seconds": round(time.time() - t0, 1),
         "table": {grp: dict(v) for grp, v in table.items()},
         "questions": rows,
     }
+    if answers:
+        # AS3.2's done-check: every out-of-corpus question refuses, no gold question does.
+        ooc = [json.loads(line) for line in (DATA / "out_of_corpus.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
+        result["out_of_corpus"] = [{"id": q["id"], "refused": answer_question(q["question"], retriever=retriever).kind == "refusal"}
+                                   for q in ooc]
+        result["refusals"] = {"gold": sum(r["refused"] for r in rows), "gold_n": len(rows),
+                              "ooc": sum(q["refused"] for q in result["out_of_corpus"]), "ooc_n": len(ooc)}
+        result["seconds"] = round(time.time() - t0, 1)
+    return result
 
 
 def render(result: dict) -> str:
@@ -91,6 +100,13 @@ def render(result: dict) -> str:
         if cite:
             line += f" {t['cite_ok'] / t['n']:>9.2f}"
         lines.append(line)
+    if "refusals" in result:
+        r = result["refusals"]
+        lines.append(f"\nrefused: out-of-corpus {r['ooc']}/{r['ooc_n']} (want all)   gold {r['gold']}/{r['gold_n']} (want none)")
+        wrong = [q["id"] for q in result["out_of_corpus"] if not q["refused"]]
+        wrong += [q["id"] for q in result["questions"] if q.get("refused")]
+        if wrong:
+            lines.append(f"  wrong: {', '.join(wrong)}")
     return "\n".join(lines)
 
 
